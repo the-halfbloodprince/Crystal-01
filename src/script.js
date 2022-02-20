@@ -6,7 +6,7 @@ import vertexShader from './shaders/vertexShader.glsl'
 import fragmentShader from './shaders/fragmentShader.glsl'
 
 // Debug
-const gui = new dat.GUI()
+// const gui = new dat.GUI()
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
@@ -15,15 +15,20 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
 // Objects
-const geometry = new THREE.BoxBufferGeometry(1, 1)
+const geometry = new THREE.SphereBufferGeometry(1, 64, 64)
 
 // Materials
 
 const material = new THREE.ShaderMaterial({
     vertexShader,
-    fragmentShader
+    fragmentShader,
+    uniforms: {
+        uTime: { value: 0.0 }
+    },
+    side: THREE.DoubleSide,
+    // wireframe: true
 })
-material.color = new THREE.Color(0xff0000)
+// material.color = new THREE.Color(0xff0000)
 
 // Mesh
 const sphere = new THREE.Mesh(geometry,material)
@@ -72,13 +77,15 @@ scene.add(camera)
 
 // Controls
 const controls = new OrbitControls(camera, canvas)
+controls.enableZoom = false
 controls.enableDamping = true
 
 /**
  * Renderer
  */
 const renderer = new THREE.WebGLRenderer({
-    canvas: canvas
+    canvas: canvas,
+    antialias: true
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
@@ -95,7 +102,10 @@ const tick = () =>
     const elapsedTime = clock.getElapsedTime()
 
     // Update objects
-    sphere.rotation.y = .5 * elapsedTime
+    sphere.rotation.y = .1 * elapsedTime
+    sphere.rotation.x = .1 * elapsedTime
+
+    material.uniforms.uTime.value = elapsedTime
 
     // Update Orbital Controls
     controls.update()
