@@ -29,18 +29,35 @@ float noise(vec3 p){
     return o4.y*d.y+o4.x*(1.-d.y);
 }
 
+float lines(vec2 uv,float offset){
+    return smoothstep(0.,.5+offset*.5,abs(.5*sin(uv.x*10.)+offset*.5));
+}
+
+mat2 rotate2D(float angle) {
+    return mat2(
+        cos(angle), -sin(angle),
+        sin(angle), cos(angle)
+    );
+}
+
 void main(){
+
+    float nPos = noise(vPosition);
+    float nPosTime = noise(vPosition + uTime);
     
-    float redIntensity=(sin(uTime)+1.5)/2.5;
-    float greenIntensity=(sin(uTime*2.)+1.5)/2.5;
-    float blueIntensity=(sin(uTime*7.)+1.5)/2.5;
+    vec2 baseUv=rotate2D(nPosTime) * vPosition.xy * 0.5;
+    // vec2 baseUv=vPosition.xy;
+    float pattern1=lines(baseUv, 0.1);
+    float pattern2=lines(baseUv, 0.5);
+
+    // vec3 baseClr1 = vec3(128./255., 158./255., 113./255.);
+    vec3 baseClr1 = vec3(1., 1., 1.);
+    vec3 baseClr2 = vec3(0., 0., 0.);
+    vec3 baseClr3 = vec3(1., 0., 0.);
+
+    vec3 finalClr1 = mix(baseClr3, baseClr1, pattern1);
+    vec3 finalClr2 = mix(finalClr1, baseClr2, pattern2);
     
-    // gl_FragColor=vec4(redIntensity,greenIntensity,blueIntensity,1.);
-    
-    float noise_based_on_position=noise(vPosition*5.+uTime);
-    float noise_based_on_position2=noise(vPosition*3.+uTime);
-    float noise_based_on_position3=noise(vPosition*2.+uTime);
-    
-    gl_FragColor=vec4(noise_based_on_position,noise_based_on_position2,noise_based_on_position3,1.);
+    gl_FragColor=vec4(vec3(finalClr2),1.);
     
 }

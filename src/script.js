@@ -15,7 +15,7 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
 // Objects
-const geometry = new THREE.SphereBufferGeometry(1, 64, 64)
+const geometry = new THREE.SphereBufferGeometry(1.5, 64, 64)
 
 // Materials
 
@@ -72,7 +72,7 @@ window.addEventListener('resize', () =>
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 camera.position.x = 0
 camera.position.y = 0
-camera.position.z = 2
+camera.position.z = 1
 scene.add(camera)
 
 // Controls
@@ -102,8 +102,8 @@ const tick = () =>
     const elapsedTime = clock.getElapsedTime()
 
     // Update objects
-    sphere.rotation.y = .1 * elapsedTime
-    sphere.rotation.x = .1 * elapsedTime
+    // sphere.rotation.y = .1 * elapsedTime
+    // sphere.rotation.x = .1 * elapsedTime
 
     material.uniforms.uTime.value = elapsedTime
 
