@@ -1,4 +1,12 @@
 uniform float uTime;
+uniform float uRFreq;
+uniform float uGFreq;
+uniform float uBFreq;
+uniform float uSpeed;
+uniform float uRFactor;
+uniform float uGFactor;
+uniform float uBFactor;
+uniform bool uMixUniformly;
 
 varying vec2 vUv;
 varying vec3 vPosition;
@@ -37,10 +45,10 @@ void main(){
     
     // gl_FragColor=vec4(redIntensity,greenIntensity,blueIntensity,1.);
     
-    float noise_based_on_position=noise(vPosition*5.+uTime);
-    float noise_based_on_position2=noise(vPosition*3.+uTime);
-    float noise_based_on_position3=noise(vPosition*2.+uTime);
+    float noise_based_on_positionR=noise(vPosition*uRFreq+uTime*uSpeed);
+    float noise_based_on_positionG=noise(vPosition*uGFreq+uTime*uSpeed);
+    float noise_based_on_positionB=noise(vPosition*uBFreq+uTime*uSpeed);
     
-    gl_FragColor=vec4(noise_based_on_position,noise_based_on_position2,noise_based_on_position3,1.);
+    gl_FragColor=(!uMixUniformly)?vec4(noise_based_on_positionR*uRFactor,noise_based_on_positionG*uGFactor,noise_based_on_positionB*uBFactor,1.):vec4(noise_based_on_positionR*uRFactor,noise_based_on_positionR*uGFactor,noise_based_on_positionR*uBFactor,1.);
     
 }

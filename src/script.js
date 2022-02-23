@@ -6,7 +6,23 @@ import vertexShader from './shaders/vertexShader.glsl'
 import fragmentShader from './shaders/fragmentShader.glsl'
 
 // Debug
-// const gui = new dat.GUI()
+const gui = new dat.GUI({
+    closed: false,
+    autoPlace: true,
+    name: 'Controls',
+    width: 400
+})
+
+const config = {
+    redFrequencyWithPosition: 5,
+    greenFrequencyWithPosition: 3,
+    blueFrequencyWithPosition: 2,
+    redFactor: 1,
+    greenFactor: 1,
+    blueFactor: 1,
+    coloursMixingSpeed: 1,
+    mixUniformly: false
+}
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
@@ -23,7 +39,15 @@ const material = new THREE.ShaderMaterial({
     vertexShader,
     fragmentShader,
     uniforms: {
-        uTime: { value: 0.0 }
+        uTime: { value: 0.0 },
+        uRFreq: { value: config.redFrequencyWithPosition },
+        uGFreq: { value: config.greenFrequencyWithPosition },
+        uBFreq: { value: config.blueFrequencyWithPosition },
+        uSpeed: { value: config.coloursMixingSpeed },
+        uRFactor: { value: config.redFactor },
+        uGFactor: { value: config.greenFactor },
+        uBFactor: { value: config.blueFactor },
+        uMixUniformly: { value: config.mixUniformly },
     },
     side: THREE.DoubleSide,
     // wireframe: true
@@ -33,6 +57,34 @@ const material = new THREE.ShaderMaterial({
 // Mesh
 const sphere = new THREE.Mesh(geometry,material)
 scene.add(sphere)
+
+const fwrtp = gui.addFolder('frequencies wrt position')
+const cmp = gui.addFolder('colours mixing parameters')
+
+fwrtp.add(config, 'redFrequencyWithPosition', 0, 10).onChange(() => {
+    material.uniforms.uRFreq.value = config.redFrequencyWithPosition
+})
+fwrtp.add(config, 'greenFrequencyWithPosition', 0, 10).onChange(() => {
+    material.uniforms.uGFreq.value = config.greenFrequencyWithPosition
+})
+fwrtp.add(config, 'blueFrequencyWithPosition', 0, 10).onChange(() => {
+    material.uniforms.uBFreq.value = config.blueFrequencyWithPosition
+})
+cmp.add(config, 'coloursMixingSpeed', 0, 20).onChange(() => {
+    material.uniforms.uSpeed.value = config.coloursMixingSpeed
+})
+cmp.add(config, 'redFactor', 0, 1).onChange(() => {
+    material.uniforms.uRFactor.value = config.redFactor
+})
+cmp.add(config, 'greenFactor', 0, 1).onChange(() => {
+    material.uniforms.uGFactor.value = config.greenFactor
+})
+cmp.add(config, 'blueFactor', 0, 1).onChange(() => {
+    material.uniforms.uBFactor.value = config.blueFactor
+})
+cmp.add(config, 'mixUniformly').onChange(() => {
+    material.uniforms.uMixUniformly.value = config.mixUniformly
+})
 
 // Lights
 
