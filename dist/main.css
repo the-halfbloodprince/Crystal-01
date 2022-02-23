@@ -44,17 +44,6 @@ h1 {
     max-width: 40vw;
 }
 
-@media screen and (max-width: 700px) {
-    .desc {
-        font-size: 1rem;
-    }
-
-    h1 {
-        font-size: 6rem;
-        text-align: center;
-    }
-}
-
 .codename {
     position: absolute;
     font-size: 1.3rem;
@@ -93,3 +82,5 @@ h1 {
     transform: scaleX(-1) translateY(-50%);
     
 }
+
+/*# sourceMappingURL=main.css.map*/
