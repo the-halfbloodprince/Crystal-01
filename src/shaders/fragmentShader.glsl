@@ -62,10 +62,26 @@ void main(){
     vec2 uv2 = vUv;
     uv2.y -= .5;
     uv2.x -= .5;
+
+    uv2.x *= 2.;
+    uv2.y *= 2.;
+
+    vec2 newUv = fract(uv2*10.);
     
+    // vec2 colors = newUv;
+
+    // uv.x goes from 0 to 1
+    // uv.x * 6. goes from 0 to 6
+    // uv.x * 6. + 4. goes from 4 to 10 in real numbers -> 4, 4.2, 4.4, 4.6, 4.8, 5.0, 5.2, 5.4, 5.6, 5.8, 6.0 ... 12.0
+    // floor: '' goes from 4 to 10 but in integers      -> 4, 4,   4,   4,   4,   5,   5,   5,   5,   5,   6   ... 12.0
+    float colors = mod(floor(uv2.x * 6. + 4.) + floor(uv2.y * 6. + 4.), 2.);
+
     // gl_FragColor=vec4(vec3(finalClr2),1.);
-    // gl_FragColor=vec4(uv2.x , 0. , 0. ,1.);
+    // gl_FragColor=vec4(vUv.x , 0. , 0. ,1.);
+    // gl_FragColor=vec4(uv2.x * 6., 0. , 0. ,1.);
     // gl_FragColor=vec4(uv2 , 1. ,1.);
-    gl_FragColor=vec4(fract(uv2) , 1. ,1.);
+    // gl_FragColor=vec4(colors , 1. ,1.);
+    // gl_FragColor=vec4(colors / 24., 0., 1. ,1.);
+    gl_FragColor=vec4(colors, 0., 0. ,1.);
     
 }
