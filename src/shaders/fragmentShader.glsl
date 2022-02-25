@@ -1,4 +1,5 @@
 uniform float uTime;
+uniform vec2 uResolution;
 
 varying vec2 vUv;
 varying vec3 vPosition;
@@ -57,7 +58,14 @@ void main(){
 
     vec3 finalClr1 = mix(baseClr3, baseClr1, pattern1);
     vec3 finalClr2 = mix(finalClr1, baseClr2, pattern2);
+
+    vec2 uv2 = vUv;
+    uv2.y -= .5;
+    uv2.x -= .5;
     
-    gl_FragColor=vec4(vec3(finalClr2),1.);
+    // gl_FragColor=vec4(vec3(finalClr2),1.);
+    // gl_FragColor=vec4(uv2.x , 0. , 0. ,1.);
+    // gl_FragColor=vec4(uv2 , 1. ,1.);
+    gl_FragColor=vec4(fract(uv2) , 1. ,1.);
     
 }
