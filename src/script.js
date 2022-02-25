@@ -5,6 +5,13 @@ import * as dat from 'dat.gui'
 import vertexShader from './shaders/vertexShader.glsl'
 import fragmentShader from './shaders/fragmentShader.glsl'
 
+/**
+ * Sizes
+ */
+const sizes = {
+    width: window.innerWidth,
+    height: window.innerHeight
+}
 // Debug
 // const gui = new dat.GUI()
 
@@ -15,7 +22,7 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
 // Objects
-const geometry = new THREE.SphereBufferGeometry(1.5, 64, 64)
+const geometry = new THREE.PlaneBufferGeometry(1, 1, 64, 64)
 
 // Materials
 
@@ -23,7 +30,7 @@ const material = new THREE.ShaderMaterial({
     vertexShader,
     fragmentShader,
     uniforms: {
-        uTime: { value: 0.0 }
+        uTime: { value: 0.0 },
     },
     side: THREE.DoubleSide,
     // wireframe: true
@@ -31,8 +38,9 @@ const material = new THREE.ShaderMaterial({
 // material.color = new THREE.Color(0xff0000)
 
 // Mesh
-const sphere = new THREE.Mesh(geometry,material)
-scene.add(sphere)
+// const sphere = new THREE.Mesh(geometry,material)
+const plane = new THREE.Mesh(geometry,material)
+scene.add(plane)
 
 // Lights
 
@@ -42,13 +50,6 @@ pointLight.position.y = 3
 pointLight.position.z = 4
 scene.add(pointLight)
 
-/**
- * Sizes
- */
-const sizes = {
-    width: window.innerWidth,
-    height: window.innerHeight
-}
 
 window.addEventListener('resize', () =>
 {
